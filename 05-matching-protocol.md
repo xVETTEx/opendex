@@ -32,6 +32,9 @@ Node will broadcast events/messages below, which applies to orders in this order
 //ei samoi messagei lähetetä koska signaturee ei tarvii. Signaturet saa pyydettäessä.
 //kuinka signaturea pyyetään ja millon?
 //ja miten jos bännit jonkun? Lähetetäänkö msg, vai vaan jos isgnausta poistolle pyyetään ni sanot et bänni?
+//ei kerrota signaturea etukäteen. 
+//se vaa et jos jonku orderi poistetaa ilman syytä ni voiko sitä mitenkään tietää? Jos ei ni onko tästä mitään hyötyä?
+//Jos invalidationeissa laitetaan signaus mukana? Harvemmin kutenkaan invalitoidaan? 
 
 When peer start subscribing orderbook next things will be broadcasted:
 1. All current orders of orderbook
@@ -48,3 +51,15 @@ When peer start subscribing orderbook next things will be broadcasted:
 	`orderbook id = 1`
 	`state = 2`
 	If state is 'accepted', request to subscribe is accepted. If state is 'unaccepted', request to subscribe is unaccepted, or 		request to unsubscribe is recieved.
+
+### NewOrderEvent Message(0x)
+	`event_type = 1`
+	` = 1`
+	
+### OrderInvalidationEvent(0x)
+
+### SwapRequestEvent(0x)
+
+### SwapFailedEvent(0x)
+
+### SwapCompleteEvent(0x)
