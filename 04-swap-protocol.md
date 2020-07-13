@@ -4,6 +4,17 @@
 
 Once an order match is found in the taker’s order book, the swap protocol should be initiated. The current swap protocol assumes that the taker and maker are connected via a payment channel network (e.g. the [Lightning](http://lightning.network/) or [Raiden Network](https://raiden.network/)) with sufficient balance available for the swap. The following is the swap protocol's "happy" flow:
 
+Swap protocol without matcher:
+1. Taker finds a match, e.g. buying 1 BTC for 10k DAI
+2. Taker creates the private `r_preimage` and the public `r_hash` for the atomic swap
+3. Taker sends the `SwapRequest` message to the maker, which includes `r_hash`
+4. Maker confirms full or partial quantity in the `SwapAccepted` message
+5. Taker starts the swap by dispatching the first-leg HTLCs on the DAI payment channel to the maker end, using `r_hash`
+6. Maker listens for an incoming HTLC on the DAI payment channel. Once it arrives he verifies price and quantity and then dispatches the second-leg HTLCs on the BTC payment channel to the taker end.
+7. Taker listens for an incoming HTLC on the BTC payment channel. Once it arrives he releases `r_preimage`. This allows **both** the taker and the maker payments to finalize.
+8. Both nodes locally mark the swap as completed once the respective HTLC is resolved and the payment is finalized.
+
+Swap protocol with matcher:
 1. Matcher finds a match, e.g. 1 BTC for 10k DAI 
 2. Matcher sends the `SwapRequest` message to the taker and maker
 3. Taker creates the private `r_preimage` and the public `r_hash` for the atomic swap
