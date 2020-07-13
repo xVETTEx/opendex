@@ -21,14 +21,17 @@ Orders with trigger should be placed orderbook when trigger price is reached, no
 
 ## Overview
 Node can subscribe all events on matcher's orderbook, so it can be sure that matcher follow matching rules. Matcher is not required to accept any subscribe reguests, but no one may want to use orderbook that can't be verified of following rules.
-Node will broadcast messages below, which applies to orders in this orderbook to everyone who have subscribed orderbook. 
-1. Order Message (0x06)
-2. OrderInvalidation Message (0x07)
-3. SwapRequest Message (0x0c)
-4. SwapAccepted Message (0x0d)
-5. SwapComplete Message (0x0e)
-6. SwapFailed Message (0x0f)
-7. NodestateUpdate Message(0x02), only changes in banlist of nodes which have used orderbook in last 24 hours. If node that haven't been trading in last 24 hours place order, its banlist should be broadcasted to subscribers.
+Node will broadcast events/messages below, which applies to orders in this orderbook to everyone who have subscribed orderbook. 
+//voisko samat messaget mitä lähettää muillekki ni tällä vaa tilaajille lähettää? Niinku swapreguestit ja muut? 
+1. newOrder
+2. cancelOrder
+3. swapRequest
+4. swapFailed
+5. swapCompleted
+
+//ei samoi messagei lähetetä koska signaturee ei tarvii. Signaturet saa pyydettäessä.
+//kuinka signaturea pyyetään ja millon?
+//ja miten jos bännit jonkun? Lähetetäänkö msg, vai vaan jos isgnausta poistolle pyyetään ni sanot et bänni?
 
 When peer start subscribing orderbook next things will be broadcasted:
 1. All current orders of orderbook
